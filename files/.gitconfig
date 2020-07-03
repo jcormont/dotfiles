@@ -1,0 +1,5 @@
+[core]
+	excludesfile = /Users/jelmer/.gitignore_global
+[user]
+	email = jcormont@gmail.com
+	name = Jelmer Cormont
