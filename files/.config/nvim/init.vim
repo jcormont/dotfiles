@@ -18,6 +18,7 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-rsi'
 Plug 'jiangmiao/auto-pairs'
 Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
 Plug 'neoclide/coc.nvim'
 Plug 'arcticicestudio/nord-vim'
 call plug#end()
@@ -253,11 +254,13 @@ vnoremap <leader>d "_d
 nnoremap j gj
 nnoremap k gk
 inoremap <silent><M-BS> <esc>dbxa
+nnoremap <silent> go <C-w>o:lefttop vs #
 
+" CoC key mappings
 inoremap <silent><expr> <c-space> coc#refresh()
 nnoremap <silent> K :call CocAction('doHover')<CR>
 nnoremap <silent> - :CocCommand explorer<CR>
-nnoremap <silent> 1 :CocList --number-select --top buffers<CR>
+nnoremap <silent> = :CocList --number-select --top buffers<CR>
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gv <C-w>o:vs<CR>gd
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -272,10 +275,12 @@ nmap <silent> <leader>ee <Plug>(coc-diagnostic-next-error)
 nmap <silent> <leader>xx <Plug>(coc-fix-current)
 nmap <silent> <leader>rr <Plug>(coc-rename)
 nmap <silent> <leader>aa <Plug>(coc-codeaction)
-nnoremap <silent> <leader><leader> :CocList --number-select mru<CR>
-nnoremap <silent> <leader>F :CocList grep<CR>
-nnoremap <silent> <leader>f :CocList --auto-preview files<CR>
-nnoremap <silent> <leader>g :CocList --auto-preview gstatus<CR>
+nmap <silent> <leader><leader> :CocList --number-select mru<CR>
+nmap <silent> <leader>F :CocList grep<CR>
+nmap <silent> <leader>f :CocList --auto-preview files<CR>
+nmap <silent> <leader>g :CocList --auto-preview gstatus<CR>
+nmap <silent> [, :CocPrev<CR>
+nmap <silent> ], :CocNext<CR>
 
 " Show syntax highlighting groups for word under cursor
 nmap <leader>? :call <SID>SynStack()<CR>
