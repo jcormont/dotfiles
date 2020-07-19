@@ -254,7 +254,7 @@ vnoremap <leader>d "_d
 nnoremap j gj
 nnoremap k gk
 inoremap <silent><M-BS> <esc>dbxa
-nnoremap <silent> go <C-w>o:lefttop vs #
+nnoremap <silent> go <C-w>o:leftabove vs #<CR>
 
 " CoC key mappings
 inoremap <silent><expr> <c-space> coc#refresh()
