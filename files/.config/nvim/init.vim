@@ -260,7 +260,7 @@ nnoremap <silent> go <C-w>o:leftabove vs #<CR>
 inoremap <silent><expr> <c-space> coc#refresh()
 nnoremap <silent> K :call CocAction('doHover')<CR>
 nnoremap <silent> - :CocCommand explorer<CR>
-nnoremap <silent> = :CocList --number-select --top buffers<CR>
+nnoremap <silent> \ :CocList --number-select --top buffers<CR>
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gv <C-w>o:vs<CR>gd
 nmap <silent> gy <Plug>(coc-type-definition)
