@@ -1,0 +1,62 @@
+{
+    "workbench.sideBar.location": "right",
+    "workbench.startupEditor": "newUntitledFile",
+    "workbench.colorCustomizations": {
+        "editorCursor.foreground": "#ffbb00",
+        "editorCursor.background": "#333",
+        "editor.background": "#202024",
+        "sideBar.background": "#202024",
+        "editorGutter.background": "#202024",
+        "editorGroupHeader.tabsBackground": "#202024",
+        "tab.inactiveBackground": "#202024",
+        "titleBar.activeBackground": "#202024",
+        "titleBar.inactiveBackground": "#2c2c3a"
+    },
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            {
+                "scope": "comment",
+                "settings": {
+                    "fontStyle": "italic"
+                }
+            }
+        ]
+    },
+    "editor.fontFamily": "Iosevka Nerd Font",
+    "editor.fontSize": 16,
+    "terminal.external.osxExec": "Alacritty.app",
+    "terminal.integrated.shell.osx": "/usr/local/bin/fish",
+    "editor.cursorBlinking": "solid",
+    "editor.minimap.enabled": false,
+    "editor.tabSize": 2,
+    "editor.wordWrap": "bounded",
+    "editor.wordWrapColumn": 120,
+    "editor.wrappingIndent": "indent",
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "prettier.printWidth": 120,
+    "prettier.requireConfig": true,
+    "prettier.quoteProps": "preserve",
+    "git.enableSmartCommit": false,
+    "git.enableStatusBarSync": false,
+    "editor.lineHeight": 20,
+    "breadcrumbs.enabled": false,
+    "workbench.activityBar.visible": false,
+    "window.restoreWindows": "none",
+    "editor.renderLineHighlight": "gutter",
+    "editor.cursorStyle": "block",
+    "git.autofetch": true,
+    "window.title": "",
+    "workbench.fontAliasing": "antialiased",
+    "workbench.iconTheme": "material-icon-theme",
+    "window.zoomLevel": 0.5,
+    "typescript.tsserver.log": "verbose",
+    "workbench.colorTheme": "Nord",
+    "vim.cursorStylePerMode.insert": "line",
+    "vim.highlightedyank.enable": true,
+    "vim.normalModeKeyBindingsNonRecursive": [
+      { "before": ["j"], "after": ["g", "j"] },
+      { "before": ["k"], "after": ["g", "k"] }
+    ],
+    "vim.useSystemClipboard": true
+}
