@@ -1,12 +1,11 @@
 window:
+  title: " "
   dimensions:
     columns: 140
     lines: 38
   padding:
-    x: 8
-    y: 8
-    top: 20
-  decorations: buttonless
+    x: 0
+    y: 0
 background_opacity: .96
 
 dpi:
@@ -25,7 +24,9 @@ colors:
     text: '#000000'
     cursor: '#ccaa33'
   primary:
-    background: '#1E2430'
+    backgroundi: '#1E2430'
+    backgrounde: '#000000'
+    background: '#202024'
     foreground: '#D8DEE9'
   normal:
     black: '#3B4252'
