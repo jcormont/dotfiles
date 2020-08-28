@@ -4,13 +4,14 @@
     "workbench.colorCustomizations": {
         "editorCursor.foreground": "#ffbb00",
         "editorCursor.background": "#333",
-        "editor.background": "#202024",
-        "sideBar.background": "#202024",
-        "editorGutter.background": "#202024",
-        "editorGroupHeader.tabsBackground": "#202024",
-        "tab.inactiveBackground": "#202024",
-        "titleBar.activeBackground": "#202024",
-        "titleBar.inactiveBackground": "#2c2c3a"
+        "editor.background": "#101014",
+        "sideBar.background": "#101014",
+        "editorGutter.background": "#101014",
+        "editorGroupHeader.tabsBackground": "#101014",
+        "tab.inactiveBackground": "#101014",
+        "titleBar.activeBackground": "#101014",
+        "titleBar.inactiveBackground": "#1c1c2a",
+        "editor.lineHighlightBackground": "#202024"
     },
     "editor.tokenColorCustomizations": {
         "textMateRules": [
@@ -23,7 +24,7 @@
         ]
     },
     "editor.fontFamily": "Iosevka Nerd Font",
-    "editor.fontSize": 16,
+    "editor.fontSize": 15,
     "terminal.external.osxExec": "Alacritty.app",
     "terminal.integrated.shell.osx": "/usr/local/bin/fish",
     "editor.cursorBlinking": "solid",
@@ -40,23 +41,24 @@
     "git.enableSmartCommit": false,
     "git.enableStatusBarSync": false,
     "editor.lineHeight": 20,
-    "breadcrumbs.enabled": false,
-    "workbench.activityBar.visible": false,
+    "breadcrumbs.enabled": true,
+    "workbench.activityBar.visible": true,
     "window.restoreWindows": "none",
-    "editor.renderLineHighlight": "gutter",
+    "editor.renderLineHighlight": "all",
     "editor.cursorStyle": "block",
     "git.autofetch": true,
     "window.title": "",
     "workbench.fontAliasing": "antialiased",
     "workbench.iconTheme": "material-icon-theme",
-    "window.zoomLevel": 0.5,
+    "window.zoomLevel": 0,
     "typescript.tsserver.log": "verbose",
-    "workbench.colorTheme": "Nord",
+    "workbench.colorTheme": "GitHub Dark",
     "vim.cursorStylePerMode.insert": "line",
     "vim.highlightedyank.enable": true,
     "vim.normalModeKeyBindingsNonRecursive": [
       { "before": ["j"], "after": ["g", "j"] },
       { "before": ["k"], "after": ["g", "k"] }
     ],
-    "vim.useSystemClipboard": true
+    "vim.useSystemClipboard": true,
+    "editor.parameterHints.enabled": false
 }
