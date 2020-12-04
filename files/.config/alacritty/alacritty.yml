@@ -1,5 +1,5 @@
 window:
-  title: " "
+  dynamic_title: true
   dimensions:
     columns: 140
     lines: 38

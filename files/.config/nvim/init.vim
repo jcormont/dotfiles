@@ -16,11 +16,13 @@ let g:coc_global_extensions = [
 " Plugins
 call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-rsi'
+Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'neoclide/coc.nvim'
 Plug 'arcticicestudio/nord-vim'
+Plug 'ayu-theme/ayu-vim'
 call plug#end()
 
 " General options
@@ -173,6 +175,10 @@ hi! link typescriptBraces Delimiter
 hi! link javascriptBraces Delimiter
 hi! link typescriptParens Delimiter
 hi! link javascriptParens Delimiter
+
+" Override with AYU theme for now
+"let ayucolor = "mirage"
+"colorscheme ayu
 
 " Status line
 set laststatus=2
