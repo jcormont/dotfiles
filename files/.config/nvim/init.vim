@@ -16,13 +16,11 @@ let g:coc_global_extensions = [
 " Plugins
 call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-rsi'
-Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'neoclide/coc.nvim'
-Plug 'arcticicestudio/nord-vim'
-Plug 'ayu-theme/ayu-vim'
+Plug 'alvan/vim-closetag'
 call plug#end()
 
 " General options
@@ -75,6 +73,7 @@ hi Italic cterm=italic gui=italic
 hi Underline cterm=underline gui=underline
 let s:c_normal = "#666677"
 let s:c_darker = "#333340"
+let s:c_darkest = "#14181C"
 let s:c_dark = "#444455"
 let s:c_light = "#DDDEEE"
 let s:c_teal = "#88BBBB"
@@ -105,7 +104,7 @@ call s:hi("CursorLineNr", s:c_light, s:c_darker, "bold")
 call s:hi("SignColumn", s:c_purple, "bg", "NONE")
 call s:hi("FoldColumn", s:c_purple, "bg", "NONE")
 call s:hi("VertSplit", s:c_darker, "bg", "NONE")
-call s:hi("EndOfBuffer", s:c_darker, "bg", "NONE")
+call s:hi("EndOfBuffer", s:c_darkest, "bg", "NONE")
 call s:hi("MsgArea", s:c_normal, "bg", "italic")
 call s:hi("ErrorMsg", s:c_red, "bg", "italic")
 call s:hi("WarningMsg", s:c_red, "bg", "italic")
@@ -175,10 +174,16 @@ hi! link typescriptBraces Delimiter
 hi! link javascriptBraces Delimiter
 hi! link typescriptParens Delimiter
 hi! link javascriptParens Delimiter
+hi! link htmlTag Delimiter
+hi! link htmlTagName Delimiter
+hi! link htmlSpecialTagName Delimiter
+hi! link htmlEndTag Delimiter
+hi! link htmlEndTagName Delimiter
 
-" Override with AYU theme for now
-"let ayucolor = "mirage"
-"colorscheme ayu
+" Debug highlight at current position
+map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
 " Status line
 set laststatus=2
@@ -205,10 +210,8 @@ function! s:setStatus()
   set statusline+=\ %#StatusLineBold#
   set statusline+=%{GitStatus()}
   set statusline+=\ %#StatusLine#
-  set statusline+=%n
-  set statusline+=\:
-  set statusline+=\ %f
-  set statusline+=%m%r%h%w
+  set statusline+=\ %t
+  set statusline+=\ %m
 
   set statusline+=%=
   set statusline+=%#CocErrorHighlight#
@@ -218,8 +221,6 @@ function! s:setStatus()
   set statusline+=%#StatusLineBold#
   set statusline+=\ %{CocStatus()}
   set statusline+=%#StatusLine#
-  set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
-  set statusline+=\:%{&fileformat}
   set statusline+=%#StatusLineBold#
   set statusline+=\ \ %l
   set statusline+=%#StatusLine#
@@ -230,6 +231,10 @@ call s:setStatus()
 
 " auto-pairs option: avoid skipping over ) across lines
 let g:AutoPairsMultilineClose = 0
+
+" auto close tag in html and jsx
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.tsx'
+let g:closetag_xhtml_filenames = '*.xhtml,*.jsx'
 
 " CoC features
 autocmd CursorHold * silent call CocActionAsync('highlight')

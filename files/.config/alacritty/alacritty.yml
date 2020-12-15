@@ -1,11 +1,12 @@
 window:
   dynamic_title: true
+  decorations: buttonless
   dimensions:
-    columns: 140
-    lines: 38
+    columns: 100
+    lines: 28
   padding:
-    x: 0
-    y: 0
+    x: 4
+    y: 8
 background_opacity: .96
 
 dpi:
@@ -14,7 +15,7 @@ dpi:
 
 font:
   use_thin_strokes: false
-  size: 16
+  size: 20
   normal:
     family: Iosevka Nerd Font
     style: Regular
@@ -24,9 +25,7 @@ colors:
     text: '#000000'
     cursor: '#ccaa33'
   primary:
-    backgroundi: '#1E2430'
-    backgrounde: '#000000'
-    background: '#202024'
+    background: '#14181C'
     foreground: '#D8DEE9'
   normal:
     black: '#3B4252'

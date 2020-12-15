@@ -23,7 +23,13 @@
   "prettier.trailingComma": "es5",
   "prettier.requireConfig": true,
   "list.extendedSearchMode": true,
-  "list.autoResize": true,
+  "explorer.file.root.template": "  [icon] [root]",
+  "explorer.sources": [
+    {
+      "name": "file",
+      "expand": true
+    }
+  ],
   "list.source.grep.command": "rg",
   "list.source.grep.args": ["--smart-case"]
 }
