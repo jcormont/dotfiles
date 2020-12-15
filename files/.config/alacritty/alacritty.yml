@@ -15,7 +15,7 @@ dpi:
 
 font:
   use_thin_strokes: false
-  size: 20
+  size: 18
   normal:
     family: Iosevka Nerd Font
     style: Regular
