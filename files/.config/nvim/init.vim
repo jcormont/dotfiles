@@ -17,6 +17,7 @@ let g:coc_global_extensions = [
 call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-rsi'
 Plug 'jiangmiao/auto-pairs'
+Plug 'wellle/targets.vim'
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'neoclide/coc.nvim'
