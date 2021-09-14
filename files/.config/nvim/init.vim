@@ -10,7 +10,8 @@ let g:coc_global_extensions = [
 \ 'coc-git',
 \ 'coc-actions',
 \ 'coc-tsserver',
-\ 'coc-json'
+\ 'coc-json',
+\ 'coc-floatinput'
 \ ]
 
 " Plugins
@@ -22,6 +23,8 @@ Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'neoclide/coc.nvim'
 Plug 'alvan/vim-closetag'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 call plug#end()
 
 " General options
@@ -39,7 +42,7 @@ set noruler
 set mouse=a
 set list lcs=trail:·,tab:»·
 set ww=<,>,[,]
-set updatetime=300
+set updatetime=150
 set linebreak
 set breakindent
 set breakindentopt=shift:2,sbr
@@ -50,7 +53,7 @@ set smartcase
 set autoread
 set number
 set cursorline
-set scrolloff=8
+set scrolloff=5
 set splitbelow
 set splitright
 if has('persistent_undo')
@@ -61,12 +64,16 @@ endif
 set backupdir=~/.local/share/nvim/backup
 set backup
 set noswapfile
-set shell=/usr/local/bin/fish
+set shell=/bin/zsh
 set grepprg=ag
+set title
+set titlestring=%t
+let &fcs='eob: '
 
 " Theme
 let g:typescript_ignore_browserwords=0
 set background=dark
+set background=light
 hi clear
 color default
 hi Bold cterm=bold gui=bold
@@ -77,6 +84,7 @@ let s:c_darker = "#333340"
 let s:c_darkest = "#14181C"
 let s:c_dark = "#444455"
 let s:c_light = "#DDDEEE"
+let s:c_high = "#FFFFFF"
 let s:c_teal = "#88BBBB"
 let s:c_blue = "#88AACC"
 let s:c_red = "#BB6666"
@@ -85,6 +93,7 @@ let s:c_yellow = "#EECC88"
 let s:c_gold = "#CCAA66"
 let s:c_green = "#AABB88"
 let s:c_purple = "#BB88AA"
+let s:c_bg = "bg"
 function! s:bg(group, guibg, cterm)
   exec "hi " . a:group . " guibg=" . a:guibg .
         \" cterm=" . a:cterm . " gui=" . a:cterm
@@ -93,47 +102,46 @@ function! s:hi(group, guifg, guibg, cterm)
   exec "hi " . a:group . " guifg=" . a:guifg . " guibg=" . a:guibg .
         \" cterm=" . a:cterm . " gui=" . a:cterm
 endfunction
-call s:hi("Normal", s:c_light, "bg", "NONE")
-call s:hi("NormalNC", s:c_light, "bg", "NONE")
-call s:hi("NonText", s:c_gold, "bg", "NONE")
-call s:hi("Whitespace", s:c_normal, "bg", "NONE")
+call s:hi("Normal", s:c_light, s:c_bg, "NONE")
+call s:hi("NormalNC", s:c_light, s:c_bg, "NONE")
+call s:hi("NonText", s:c_gold, s:c_bg, "NONE")
+call s:hi("Whitespace", s:c_normal, s:c_bg, "NONE")
 call s:hi("LineNr", s:c_normal, "NONE", "NONE")
 call s:bg("CursorLine", s:c_darker, "NONE")
 call s:bg("ColorColumn", s:c_darker, "NONE")
-call s:hi("CursorColumn", s:c_blue, "bg", "NONE")
+call s:hi("CursorColumn", s:c_blue, s:c_bg, "NONE")
 call s:hi("CursorLineNr", s:c_light, s:c_darker, "bold")
-call s:hi("SignColumn", s:c_purple, "bg", "NONE")
-call s:hi("FoldColumn", s:c_purple, "bg", "NONE")
-call s:hi("VertSplit", s:c_darker, "bg", "NONE")
-call s:hi("EndOfBuffer", s:c_darkest, "bg", "NONE")
-call s:hi("MsgArea", s:c_normal, "bg", "italic")
-call s:hi("ErrorMsg", s:c_red, "bg", "italic")
-call s:hi("WarningMsg", s:c_red, "bg", "italic")
-call s:hi("ModeMsg", s:c_blue, "bg", "NONE")
-call s:hi("MoreMsg", s:c_blue, "bg", "italic")
-call s:hi("QuickFixLine", s:c_blue, "bg", "italic")
+call s:hi("SignColumn", s:c_purple, s:c_bg, "NONE")
+call s:hi("FoldColumn", s:c_purple, s:c_bg, "NONE")
+call s:hi("VertSplit", s:c_darker, s:c_bg, "NONE")
+call s:hi("MsgArea", s:c_normal, s:c_bg, "italic")
+call s:hi("ErrorMsg", s:c_red, s:c_bg, "italic")
+call s:hi("WarningMsg", s:c_red, s:c_bg, "italic")
+call s:hi("ModeMsg", s:c_blue, s:c_bg, "NONE")
+call s:hi("MoreMsg", s:c_blue, s:c_bg, "italic")
+call s:hi("QuickFixLine", s:c_blue, s:c_bg, "italic")
 autocmd FileType list set winhighlight=CursorLine:CursorLineNr
 
 call s:hi("StatusLine", s:c_light, s:c_dark, "NONE")
 call s:hi("StatusLineBold", s:c_light, s:c_dark, "bold")
 call s:hi("StatusLineNC", s:c_normal, s:c_dark, "NONE")
 
-call s:hi("Question", s:c_blue, "bg", "italic")
-call s:hi("Error", s:c_red, "bg", "NONE")
-call s:hi("Warning", s:c_orange, "bg", "NONE")
-call s:hi("CocErrorSign", s:c_red, "bg", "NONE")
-call s:hi("CocWarningSign", s:c_orange, "bg", "NONE")
-call s:hi("CocInfoSign", s:c_blue, "bg", "NONE")
+call s:hi("Question", s:c_blue, s:c_bg, "italic")
+call s:hi("Error", s:c_red, s:c_bg, "NONE")
+call s:hi("Warning", s:c_orange, s:c_bg, "NONE")
+call s:hi("CocErrorSign", s:c_red, s:c_bg, "NONE")
+call s:hi("CocWarningSign", s:c_orange, s:c_bg, "NONE")
+call s:hi("CocInfoSign", s:c_blue, s:c_bg, "NONE")
 call s:hi("CocErrorHighlight", s:c_light, s:c_red, "underline")
 call s:hi("CocWarningHighlight", s:c_light, s:c_orange, "underline")
 hi CocInfoHighlight gui=underline
 hi CocHintHighlight gui=underline
 
-call s:hi("PMenu", s:c_light, s:c_normal, "NONE")
+call s:hi("PMenu", s:c_light, s:c_dark, "NONE")
 call s:hi("PMenuSel", s:c_dark, s:c_light, "NONE")
-call s:hi("WildMenu", s:c_blue, "bg", "italic")
+call s:hi("WildMenu", s:c_blue, s:c_bg, "italic")
 
-call s:hi("MatchParen", "#FFFFFF", s:c_light, "NONE")
+call s:hi("MatchParen", s:c_high, s:c_light, "NONE")
 call s:hi("Visual", s:c_normal, s:c_light, "NONE")
 call s:hi("VisualNOS", s:c_normal, s:c_light, "NONE")
 call s:hi("Search", s:c_dark, s:c_light, "bold")
@@ -142,30 +150,30 @@ call s:bg("Substitute", s:c_normal, "bold")
 call s:bg("MatchParen", s:c_normal, "bold")
 call s:bg("CocHighlightText", s:c_dark, "NONE")
 
-call s:hi("Directory", s:c_light, "bg", "bold")
+call s:hi("Directory", s:c_light, s:c_bg, "bold")
 call s:hi("Folded", s:c_normal, s:c_light, "NONE")
 call s:hi("DiffAdd", s:c_dark, s:c_green, "NONE")
 call s:hi("DiffChange", s:c_light, s:c_orange, "NONE")
 call s:hi("DiffDelete", s:c_light, s:c_red, "NONE")
-call s:hi("DiffText", s:c_gold, "bg", "bold")
+call s:hi("DiffText", s:c_gold, s:c_bg, "bold")
 
-call s:hi("Todo", s:c_red, "bg", "bold")
-call s:hi("Comment", s:c_green, "bg", "italic")
-call s:hi("Constant", s:c_purple, "bg", "NONE")
-call s:hi("String", s:c_gold, "bg", "NONE")
-call s:hi("PreProc", s:c_light, "bg", "NONE")
-call s:hi("Identifier", s:c_blue, "bg", "bold")
-call s:hi("Function", s:c_light, "bg", "NONE")
-call s:hi("Statement", s:c_blue, "bg", "italic")
-call s:hi("Keyword", s:c_blue, "bg", "italic")
-call s:hi("Conditional", s:c_blue, "bg", "italic")
-call s:hi("Repeat", s:c_blue, "bg", "italic")
-call s:hi("Label", s:c_blue, "bg", "italic")
-call s:hi("Exception", s:c_blue, "bg", "italic")
-call s:hi("Type", s:c_light, "bg", "NONE")
-call s:hi("Operator", s:c_orange, "bg", "NONE")
-call s:hi("Delimiter", s:c_teal, "bg", "NONE")
-call s:hi("Special", s:c_light, "bg", "NONE")
+call s:hi("Todo", s:c_red, s:c_bg, "bold")
+call s:hi("Comment", s:c_green, s:c_bg, "italic")
+call s:hi("Constant", s:c_purple, s:c_bg, "NONE")
+call s:hi("String", s:c_gold, s:c_bg, "NONE")
+call s:hi("PreProc", s:c_light, s:c_bg, "NONE")
+call s:hi("Identifier", s:c_blue, s:c_bg, "bold")
+call s:hi("Function", s:c_light, s:c_bg, "NONE")
+call s:hi("Statement", s:c_blue, s:c_bg, "italic")
+call s:hi("Keyword", s:c_blue, s:c_bg, "italic")
+call s:hi("Conditional", s:c_blue, s:c_bg, "italic")
+call s:hi("Repeat", s:c_blue, s:c_bg, "italic")
+call s:hi("Label", s:c_blue, s:c_bg, "italic")
+call s:hi("Exception", s:c_blue, s:c_bg, "italic")
+call s:hi("Type", s:c_light, s:c_bg, "NONE")
+call s:hi("Operator", s:c_orange, s:c_bg, "NONE")
+call s:hi("Delimiter", s:c_teal, s:c_bg, "NONE")
+call s:hi("Special", s:c_light, s:c_bg, "NONE")
 
 hi! link typescriptStorageClass Keyword
 hi! link typscriptGlobal Normal
@@ -269,10 +277,12 @@ inoremap <silent><M-BS> <esc>dbxa
 nnoremap <silent> go <C-w>o:leftabove vs #<CR>
 
 " CoC key mappings
-inoremap <silent><expr> <c-space> coc#refresh()
+inoremap <silent><expr> <C-space> coc#refresh()
+inoremap <silent><expr> <C-k> coc#refresh()
 nnoremap <silent> K :call CocAction('doHover')<CR>
 nnoremap <silent> - :CocCommand explorer<CR>
 nnoremap <silent> \ :CocList --number-select --top buffers<CR>
+nnoremap <space> :Telescope
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gv <C-w>o:vs<CR>gd
 nmap <silent> gy <Plug>(coc-type-definition)

@@ -3,3 +3,9 @@
 [user]
 	email = jcormont@gmail.com
 	name = Jelmer Cormont
+[credential]
+	helper = osxkeychain
+[pull]
+	ff = only
+[init]
+	defaultBranch = main
