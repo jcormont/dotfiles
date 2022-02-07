@@ -1,7 +1,7 @@
 [core]
 	excludesfile = /Users/jelmer/.gitignore_global
 [user]
-	email = jcormont@gmail.com
+	email = jelmer@cormont.work
 	name = Jelmer Cormont
 [credential]
 	helper = osxkeychain
