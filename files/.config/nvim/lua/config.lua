@@ -4,7 +4,7 @@ vim.opt.expandtab = true
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.cmdheight = 2
-vim.opt.signcolumn = "yes:2"
+vim.opt.signcolumn = "yes"
 vim.opt.ruler = false
 vim.opt.mouse = "a"
 vim.opt.termguicolors = true
@@ -79,6 +79,11 @@ vim.cmd("autocmd BufWritePre * undojoin | Neoformat prettierd")
 
 -- LSP setup
 local lspconfig = require("lspconfig")
+vim.fn.sign_define("DiagnosticSignError", {text = "", numhl = "DiagnosticSignError"})
+vim.fn.sign_define("DiagnosticSignWarn", {text = "", numhl = "DiagnosticSignWarn"})
+vim.fn.sign_define("DiagnosticSignInfo", {text = "", numhl = "DiagnosticSignInfo"})
+vim.fn.sign_define("DiagnosticSignHint", {text = "", numhl = "DiagnosticSignHint"})
+--vim.diagnostic.config({ signs = false })
 
 local buf_map = function(bufnr, mode, lhs, rhs, opts)
   vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts or {
@@ -149,7 +154,15 @@ require("nvim-treesitter.configs").setup({
 })
 
 -- Git signs
-require('gitsigns').setup()
+require('gitsigns').setup({
+  signs = {
+    add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
+    change       = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+    delete       = {hl = 'GitSignsDelete', text = '_', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    topdelete    = {hl = 'GitSignsDelete', text = '‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    changedelete = {hl = 'GitSignsDelete', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+  }
+})
 
 -- Telescope
 require("telescope").setup({
