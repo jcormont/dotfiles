@@ -46,7 +46,10 @@ vim.opt.shortmess = {
 -- Fix up/down behavior
 vim.api.nvim_set_keymap("n", "j", "gj", { noremap = true })
 vim.api.nvim_set_keymap("n", "k", "gk", { noremap = true })
-vim.api.nvim_set_keymap("n", "<space>", "10j", { noremap = true })
+
+-- Other mappings
+vim.api.nvim_set_keymap("n", "<space>", "9j", { noremap = true })
+vim.api.nvim_set_keymap("i", "<C-]>", "<C-o>O", { noremap = true })
 
 -- Highlight on yank
 vim.cmd "au TextYankPost * lua vim.highlight.on_yank {on_visual = false}"
@@ -110,9 +113,11 @@ local on_attach = function(client, bufnr)
   buf_map(bufnr, "n", "K", ":LspHover<CR>")
   buf_map(bufnr, "n", "<C-K>", ":LspHover<CR>")
   buf_map(bufnr, "i", "<C-K>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
-  if client.resolved_capabilities.document_formatting then
-    vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
-  end
+
+  --Disable LSP format on save because using Prettier instead
+  --if client.resolved_capabilities.document_formatting then
+  --  vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
+  --end
 end
 
 require 'lspconfig'.tsserver.setup({ on_attach = on_attach })
@@ -127,11 +132,10 @@ cmp.setup({
   },
   mapping = {
     ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-    ['<C-n>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
     ['<CR>'] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace }),
     ['<tab>'] = cmp.mapping.confirm({ select = true })
   },
-  sources = cmp.config.sources({{ name = 'nvim_lsp' }}),
+  sources = cmp.config.sources({{ name = 'nvim_lsp' }, { name = 'path' }}),
   experimental = { ghost_text = true }
 })
 
@@ -163,6 +167,8 @@ require('gitsigns').setup({
     changedelete = {hl = 'GitSignsDelete', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
   }
 })
+vim.api.nvim_set_keymap("n", "<leader>n", ":Gitsigns next_hunk<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "<leader>N", ":Gitsigns prev_hunk<CR>", { silent = true })
 
 -- Telescope
 require("telescope").setup({
@@ -172,6 +178,8 @@ require("telescope").load_extension("file_browser")
 vim.api.nvim_set_keymap("n", "<leader><leader>", ":Telescope<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "<leader>F", ":Telescope live_grep theme=ivy<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "<leader>f", ":Telescope git_files theme=ivy<CR>", { silent = true })
-vim.api.nvim_set_keymap("n", "<leader>e", ":Telescope file_browser theme=dropdown previewer=false layout_config={height=0.9}<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "<leader>e", ":Telescope file_browser path=%:p:h theme=dropdown previewer=false layout_config={height=0.9}<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "<leader>g", ":Telescope git_status theme=ivy<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "<leader>b", ":Telescope buffers<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "<C-p>", ":Telescope buffers<CR>", { silent = true })
 
