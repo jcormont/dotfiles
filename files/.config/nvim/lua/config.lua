@@ -48,7 +48,15 @@ vim.api.nvim_set_keymap("n", "j", "gj", { noremap = true })
 vim.api.nvim_set_keymap("n", "k", "gk", { noremap = true })
 
 -- Other mappings
-vim.api.nvim_set_keymap("n", "<space>", "9j", { noremap = true })
+vim.api.nvim_set_keymap("n", "<space>",
+  "j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j",
+  { noremap = true })
+vim.api.nvim_set_keymap("n", "<C-d>",
+  "j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j",
+  { noremap = true })
+vim.api.nvim_set_keymap("n", "<C-u>",
+  "k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k",
+  { noremap = true })
 vim.api.nvim_set_keymap("i", "<C-]>", "<C-o>O", { noremap = true })
 
 -- Highlight on yank
