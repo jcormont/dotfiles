@@ -33,6 +33,7 @@ bindkey '\e[B' history-beginning-search-forward
 
 # Aliases
 alias e=nvim
+alias t="tmux a || tmux n -s main"
 alias r="tmux rename-session $argv"
 alias g="git status -s -b $argv"
 alias gg="git log --graph --decorate --all --date-order --pretty='%C(green)%h%C(reset) %C(italic blue)%ar%C(reset)%C(yellow)%d%C(reset) - %s' $argv"
