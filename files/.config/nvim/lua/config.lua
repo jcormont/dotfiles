@@ -54,6 +54,9 @@ vim.api.nvim_set_keymap("n", "<space>",
 vim.api.nvim_set_keymap("n", "<C-d>",
   "j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j",
   { noremap = true })
+vim.api.nvim_set_keymap("n", "-",
+  "k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k",
+  { noremap = true })
 vim.api.nvim_set_keymap("n", "<C-u>",
   "k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k",
   { noremap = true })
@@ -75,6 +78,7 @@ require('packer').startup(function()
   use "hrsh7th/cmp-path"
   use "hrsh7th/nvim-cmp"
   use "lewis6991/gitsigns.nvim"
+  use "folke/trouble.nvim"
   use "sbdchd/neoformat"
   use "nvim-lualine/lualine.nvim"
   use "bluz71/vim-nightfly-guicolors"
@@ -113,11 +117,11 @@ local on_attach = function(client, bufnr)
   vim.cmd("command! LspDiag lua vim.diagnostic.setqflist()")
   vim.cmd("command! LspSignatureHelp lua vim.lsp.buf.signature_help()")
   buf_map(bufnr, "n", "gd", ":LspDef<CR>")
-  buf_map(bufnr, "n", "gr", ":LspRefs<CR>")
-  buf_map(bufnr, "n", "gy", ":LspTypeDef<CR>")
-  buf_map(bufnr, "n", "ga", ":LspCodeAction<CR>")
-  buf_map(bufnr, "n", "gq", ":LspDiag<CR>")
-  buf_map(bufnr, "n", "<C-r><C-r>", ":LspRename<CR>")
+  --buf_map(bufnr, "n", "gr", ":LspRefs<CR>") -- using Telescope instead
+  --buf_map(bufnr, "n", "gy", ":LspTypeDef<CR>")
+  --buf_map(bufnr, "n", "ga", ":LspCodeAction<CR>")
+  --buf_map(bufnr, "n", "gq", ":LspDiag<CR>")
+  buf_map(bufnr, "n", "<leader>rr", ":LspRename<CR>")
   buf_map(bufnr, "n", "K", ":LspHover<CR>")
   buf_map(bufnr, "n", "<C-K>", ":LspHover<CR>")
   buf_map(bufnr, "i", "<C-K>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
@@ -140,6 +144,7 @@ cmp.setup({
   },
   mapping = {
     ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+    ['<C-j>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
     ['<CR>'] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace }),
     ['<tab>'] = cmp.mapping.confirm({ select = true })
   },
@@ -160,9 +165,7 @@ require("lualine").setup({
 -- Tree sitter (enable syntax highlighting)
 require("nvim-treesitter.configs").setup({
   ensure_installed = "all",
-  highlight = {
-    enable = true
-  }
+  highlight = { enable = true }
 })
 
 -- Git signs
@@ -175,8 +178,11 @@ require('gitsigns').setup({
     changedelete = {hl = 'GitSignsDelete', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
   }
 })
-vim.api.nvim_set_keymap("n", "<leader>n", ":Gitsigns next_hunk<CR>", { silent = true })
-vim.api.nvim_set_keymap("n", "<leader>N", ":Gitsigns prev_hunk<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "gn", ":Gitsigns next_hunk<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "gN", ":Gitsigns prev_hunk<CR>", { silent = true })
+
+-- Trouble
+vim.api.nvim_set_keymap("n", "<leader>t", ":TroubleToggle<CR>", { silent = true })
 
 -- Telescope
 require("telescope").setup({
@@ -184,10 +190,16 @@ require("telescope").setup({
 })
 require("telescope").load_extension("file_browser")
 vim.api.nvim_set_keymap("n", "<leader><leader>", ":Telescope<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "<leader>.", ":Telescope resume<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "<leader>F", ":Telescope live_grep theme=ivy<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "<leader>f", ":Telescope git_files theme=ivy<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "<leader>e", ":Telescope file_browser path=%:p:h theme=dropdown previewer=false layout_config={height=0.9}<CR>", { silent = true })
-vim.api.nvim_set_keymap("n", "<leader>g", ":Telescope git_status theme=ivy<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "<leader>o", ":Telescope oldfiles only_cwd=true theme=ivy<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "<leader>b", ":Telescope buffers<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "<C-p>", ":Telescope buffers<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "<leader>g", ":Telescope git_status theme=ivy<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "<leader>a", ":Telescope lsp_code_actions theme=ivy<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "<leader>q", ":Telescope diagnostics theme=ivy<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "gr", ":Telescope lsp_references theme=ivy<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "gy", ":Telescope lsp_type_definitions theme=ivy<CR>", { silent = true })
 
