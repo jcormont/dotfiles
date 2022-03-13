@@ -23,6 +23,7 @@ vim.opt.cursorline = true
 vim.opt.scrolloff = 5
 vim.opt.splitbelow = true
 vim.opt.splitright = true
+vim.opt.spell = true
 vim.opt.backup = false
 vim.opt.swapfile = false
 vim.opt.foldmethod = "manual"
@@ -81,7 +82,7 @@ require('packer').startup(function()
   use "folke/trouble.nvim"
   use "sbdchd/neoformat"
   use "nvim-lualine/lualine.nvim"
-  use "bluz71/vim-nightfly-guicolors"
+  use "folke/tokyonight.nvim"
   use "kyazdani42/nvim-web-devicons"
   use {
     "nvim-treesitter/nvim-treesitter",
@@ -98,7 +99,6 @@ vim.fn.sign_define("DiagnosticSignError", {text = "", numhl = "DiagnosticSignErr
 vim.fn.sign_define("DiagnosticSignWarn", {text = "", numhl = "DiagnosticSignWarn"})
 vim.fn.sign_define("DiagnosticSignInfo", {text = "", numhl = "DiagnosticSignInfo"})
 vim.fn.sign_define("DiagnosticSignHint", {text = "", numhl = "DiagnosticSignHint"})
---vim.diagnostic.config({ signs = false })
 
 local buf_map = function(bufnr, mode, lhs, rhs, opts)
   vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts or {
@@ -153,19 +153,38 @@ cmp.setup({
 })
 
 -- Color theme and status line
-vim.cmd("colorscheme nightfly")
+vim.g.tokyonight_style = "night";
+vim.g.tokyonight_day_brightness = 0.2
+vim.cmd("colorscheme tokyonight")
+vim.api.nvim_set_keymap("n",
+  "<leader>cl",
+  ':lua vim.g.tokyonight_style="day"; vim.cmd("color tokyonight")<CR>',
+  {})
 require("lualine").setup({
   options = {
     icons_enabled = false,
     component_separators = { left = '', right = ''},
     section_separators = { left = '', right = ''},
+  },
+  sections = {
+    lualine_c = {
+      {
+        "filename",
+        file_status = true,
+        path = 1
+      }
+    }
   }
 })
 
 -- Tree sitter (enable syntax highlighting)
 require("nvim-treesitter.configs").setup({
-  ensure_installed = "all",
-  highlight = { enable = true }
+  ensure_installed = "maintained",
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = true
+  },
+  indent = { enable = true }
 })
 
 -- Git signs
