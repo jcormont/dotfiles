@@ -153,12 +153,15 @@ cmp.setup({
 })
 
 -- Color theme and status line
-vim.g.tokyonight_style = "night";
+vim.g.tokyonight_style = "night"
 vim.g.tokyonight_day_brightness = 0.2
+vim.g.tokyonight_transparent = true
 vim.cmd("colorscheme tokyonight")
 vim.api.nvim_set_keymap("n",
   "<leader>cl",
-  ':lua vim.g.tokyonight_style="day"; vim.cmd("color tokyonight")<CR>',
+  ':lua vim.g.tokyonight_style="day"; ' ..
+  'vim.g.tokyonight_transparent=false; ' ..
+  'vim.cmd("color tokyonight")<CR>',
   {})
 require("lualine").setup({
   options = {
@@ -212,7 +215,7 @@ vim.api.nvim_set_keymap("n", "<leader><leader>", ":Telescope<CR>", { silent = tr
 vim.api.nvim_set_keymap("n", "<leader>.", ":Telescope resume<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "<leader>F", ":Telescope live_grep theme=ivy<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "<leader>f", ":Telescope git_files theme=ivy<CR>", { silent = true })
-vim.api.nvim_set_keymap("n", "<leader>e", ":Telescope file_browser path=%:p:h theme=dropdown previewer=false layout_config={height=0.9}<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "<leader>e", ":Telescope file_browser path=%:p:h theme=dropdown previewer=false grouped=true select_buffer=true layout_config={height=0.9}<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "<leader>o", ":Telescope oldfiles only_cwd=true theme=ivy<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "<leader>b", ":Telescope buffers<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "<C-p>", ":Telescope buffers<CR>", { silent = true })

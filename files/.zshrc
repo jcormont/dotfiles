@@ -31,14 +31,21 @@ export EDITOR='nvim'
 bindkey '\e[A' history-beginning-search-backward
 bindkey '\e[B' history-beginning-search-forward
 
-# Aliases
+# Aliases (nvim, tmux, git)
 alias e=nvim
 alias t="tmux a || tmux new-session -s main"
 alias r="tmux rename-session $argv"
 alias g="git status -s -b $argv"
 alias gg="git log --graph --decorate --all --date-order --pretty='%C(green)%h%C(reset) %C(italic blue)%ar%C(reset)%C(yellow)%d%C(reset) - %s' $argv"
-alias bastion="tmux new-session -d -s bastion ./.scripts/bastion.sh"
+
+# Script aliases (from .scripts folder)
+alias bastion="cd;tmux new-session -d -s bastion ./.scripts/bastion.sh"
 alias backup="cd;./.scripts/pack.sh"
 
+# ZSH syntax highlighting (installed separately)
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+# Load NVM (installed separately)
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
