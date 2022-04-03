@@ -27,6 +27,12 @@ PROMPT='%F{014}%1~ ❱$(git_prompt)%f '
 # Set default editor
 export EDITOR='nvim'
 
+# Enable history
+HISTFILE=~/.zsh-history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory
+
 # Set history behavior with up/down keys
 bindkey '\e[A' history-beginning-search-backward
 bindkey '\e[B' history-beginning-search-forward
