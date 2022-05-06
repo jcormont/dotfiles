@@ -51,17 +51,23 @@ vim.api.nvim_set_keymap("n", "k", "gk", { noremap = true })
 -- Other mappings
 vim.api.nvim_set_keymap("n", "<space>",
   "j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j",
-  { noremap = true })
+  { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-d>",
   "j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j",
-  { noremap = true })
+  { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "-",
   "k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k",
-  { noremap = true })
+  { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-u>",
   "k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k",
-  { noremap = true })
+  { noremap = true, silent = true })
 vim.api.nvim_set_keymap("i", "<C-]>", "<C-o>O", { noremap = true })
+
+-- Remap leader-y/p to use system buffer
+vim.api.nvim_set_keymap("n", "<leader>y", "\"+y", {});
+vim.api.nvim_set_keymap("v", "<leader>y", "\"+y", {});
+vim.api.nvim_set_keymap("n", "<leader>p", "\"+p", {});
+vim.api.nvim_set_keymap("v", "<leader>p", "\"+p", {});
 
 -- Highlight on yank
 vim.cmd "au TextYankPost * lua vim.highlight.on_yank {on_visual = false}"

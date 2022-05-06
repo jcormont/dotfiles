@@ -33,10 +33,6 @@ HISTSIZE=10000
 SAVEHIST=10000
 setopt appendhistory
 
-# Set history behavior with up/down keys
-bindkey '\e[A' history-beginning-search-backward
-bindkey '\e[B' history-beginning-search-forward
-
 # Aliases (nvim, tmux, git)
 alias e=nvim
 alias t="tmux a || tmux new-session -s main"
