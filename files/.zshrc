@@ -32,6 +32,12 @@ HISTFILE=~/.zsh-history
 HISTSIZE=10000
 SAVEHIST=10000
 setopt appendhistory
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "$key[Up]" up-line-or-beginning-search
+bindkey "$key[Down]" down-line-or-beginning-search
 
 # Aliases (nvim, tmux, git)
 alias e=nvim

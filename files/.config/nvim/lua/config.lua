@@ -3,16 +3,18 @@ vim.opt.hidden = true
 vim.opt.expandtab = true
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
-vim.opt.cmdheight = 2
+vim.opt.cmdheight = 1
 vim.opt.signcolumn = "yes"
 vim.opt.ruler = false
 vim.opt.mouse = "a"
 vim.opt.termguicolors = true
 vim.opt.incsearch = true
-vim.opt.linebreak = true
 vim.opt.breakindent = true
-vim.opt.breakindentopt:append("shift:2", "sbr")
+vim.opt.showbreak = "  "
+vim.opt.linebreak = true
 vim.opt.showmode = false
+vim.opt.showcmd = true
+vim.opt.showmatch = true
 vim.opt.fillchars = { eob = " " }
 vim.opt.winbl = 10
 vim.opt.ignorecase = true
@@ -20,16 +22,18 @@ vim.opt.smartcase = true
 vim.opt.autoread = true
 vim.opt.number = true
 vim.opt.cursorline = true
-vim.opt.scrolloff = 5
+vim.opt.scrolloff = 8
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.spell = true
 vim.opt.backup = false
 vim.opt.swapfile = false
 vim.opt.foldmethod = "manual"
+vim.opt.belloff = "all"
 vim.opt.shell = "/bin/zsh"
 vim.opt.title = true
 vim.opt.titlestring = "%t"
+vim.opt.clipboard = "unnamedplus"
 vim.opt.updatetime = 150
 vim.cmd [[ set list lcs=trail:·,tab:»· ]]
 vim.g.mapleader = ","
@@ -113,6 +117,7 @@ local buf_map = function(bufnr, mode, lhs, rhs, opts)
 end
 
 local on_attach = function(client, bufnr)
+  vim.opt.formatoptions = "crnj"
   vim.cmd("command! LspDef lua vim.lsp.buf.definition()")
   vim.cmd("command! LspFormatting lua vim.lsp.buf.formatting()")
   vim.cmd("command! LspCodeAction lua vim.lsp.buf.code_action()")
@@ -124,9 +129,9 @@ local on_attach = function(client, bufnr)
   vim.cmd("command! LspSignatureHelp lua vim.lsp.buf.signature_help()")
   buf_map(bufnr, "n", "gd", ":LspDef<CR>")
   --buf_map(bufnr, "n", "gr", ":LspRefs<CR>") -- using Telescope instead
-  --buf_map(bufnr, "n", "gy", ":LspTypeDef<CR>")
-  --buf_map(bufnr, "n", "ga", ":LspCodeAction<CR>")
-  --buf_map(bufnr, "n", "gq", ":LspDiag<CR>")
+  --buf_map(bufnr, "n", "gy", ":LspTypeDef<CR>") -- using Telescope instead
+  --buf_map(bufnr, "n", "gy", ":LspDiag<CR>") -- using Trouble instead
+  buf_map(bufnr, "n", "<leader>a", ":LspCodeAction<CR>")
   buf_map(bufnr, "n", "<leader>rr", ":LspRename<CR>")
   buf_map(bufnr, "n", "K", ":LspHover<CR>")
   buf_map(bufnr, "n", "<C-K>", ":LspHover<CR>")
@@ -188,7 +193,7 @@ require("lualine").setup({
 
 -- Tree sitter (enable syntax highlighting)
 require("nvim-treesitter.configs").setup({
-  ensure_installed = "maintained",
+  ensure_installed = "all",
   highlight = {
     enable = true,
     additional_vim_regex_highlighting = true
@@ -219,14 +224,14 @@ require("telescope").setup({
 require("telescope").load_extension("file_browser")
 vim.api.nvim_set_keymap("n", "<leader><leader>", ":Telescope<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "<leader>.", ":Telescope resume<CR>", { silent = true })
-vim.api.nvim_set_keymap("n", "<leader>F", ":Telescope live_grep theme=ivy<CR>", { silent = true })
-vim.api.nvim_set_keymap("n", "<leader>f", ":Telescope git_files theme=ivy<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "<leader>e", ":Telescope file_browser path=%:p:h theme=dropdown previewer=false grouped=true select_buffer=true layout_config={height=0.9}<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "<leader>f", ":Telescope git_files theme=ivy<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "<leader>o", ":Telescope oldfiles only_cwd=true theme=ivy<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "<leader>S", ":Telescope live_grep theme=ivy<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "<leader>s", ":Telescope current_buffer_fuzzy_find theme=dropdown previewer=false layout_config={height=0.5}<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "<leader>b", ":Telescope buffers<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "<C-p>", ":Telescope buffers<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "<leader>g", ":Telescope git_status theme=ivy<CR>", { silent = true })
-vim.api.nvim_set_keymap("n", "<leader>a", ":Telescope lsp_code_actions theme=ivy<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "<leader>q", ":Telescope diagnostics theme=ivy<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "gr", ":Telescope lsp_references theme=ivy<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "gy", ":Telescope lsp_type_definitions theme=ivy<CR>", { silent = true })
