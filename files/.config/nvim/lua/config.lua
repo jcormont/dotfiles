@@ -236,3 +236,6 @@ vim.api.nvim_set_keymap("n", "<leader>q", ":Telescope diagnostics theme=ivy<CR>"
 vim.api.nvim_set_keymap("n", "gr", ":Telescope lsp_references theme=ivy<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "gy", ":Telescope lsp_type_definitions theme=ivy<CR>", { silent = true })
 
+-- In a bold move, remap '/' in normal mode to use Telescope instead...
+-- (if want to highlight, ':/' seems to work fine)
+vim.api.nvim_set_keymap('n', "/", "<leader>s", {})
