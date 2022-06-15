@@ -92,7 +92,10 @@ require('packer').startup(function()
   use "folke/trouble.nvim"
   use "sbdchd/neoformat"
   use "nvim-lualine/lualine.nvim"
-  use "folke/tokyonight.nvim"
+  use {
+    "lalitmee/cobalt2.nvim",
+    requires = "tjdevries/colorbuddy.nvim"
+  }
   use "kyazdani42/nvim-web-devicons"
   use {
     "nvim-treesitter/nvim-treesitter",
@@ -156,7 +159,9 @@ cmp.setup({
   mapping = {
     ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
     ['<C-j>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-    ['<CR>'] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace }),
+    ['<Up>'] = cmp.mapping(cmp.mapping.select_prev_item(), {'i','c'}),
+    ['<Down>'] = cmp.mapping(cmp.mapping.select_next_item(), {'i','c'}),
+    ['<CR>'] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Insert }),
     ['<tab>'] = cmp.mapping.confirm({ select = true })
   },
   sources = cmp.config.sources({{ name = 'nvim_lsp' }, { name = 'path' }}),
@@ -164,16 +169,7 @@ cmp.setup({
 })
 
 -- Color theme and status line
-vim.g.tokyonight_style = "night"
-vim.g.tokyonight_day_brightness = 0.2
-vim.g.tokyonight_transparent = true
-vim.cmd("colorscheme tokyonight")
-vim.api.nvim_set_keymap("n",
-  "<leader>cl",
-  ':lua vim.g.tokyonight_style="day"; ' ..
-  'vim.g.tokyonight_transparent=false; ' ..
-  'vim.cmd("color tokyonight")<CR>',
-  {})
+require('colorbuddy').colorscheme('cobalt2')
 require("lualine").setup({
   options = {
     icons_enabled = false,
