@@ -1,6 +1,7 @@
 -- General options
 vim.opt.hidden = true
-vim.opt.expandtab = true
+vim.opt.expandtab = false
+vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.cmdheight = 1
@@ -15,6 +16,7 @@ vim.opt.linebreak = true
 vim.opt.showmode = false
 vim.opt.showcmd = true
 vim.opt.showmatch = true
+vim.opt.matchtime = 1
 vim.opt.fillchars = { eob = " " }
 vim.opt.winbl = 10
 vim.opt.ignorecase = true
@@ -35,7 +37,7 @@ vim.opt.title = true
 vim.opt.titlestring = "%t"
 vim.opt.clipboard = "unnamedplus"
 vim.opt.updatetime = 150
-vim.cmd [[ set list lcs=trail:·,tab:»· ]]
+vim.cmd [[ set list lcs=trail:·,tab:\\u2591\\x20 ]]
 vim.g.mapleader = ","
 vim.opt.shortmess = {
   a = true,
@@ -53,18 +55,10 @@ vim.api.nvim_set_keymap("n", "j", "gj", { noremap = true })
 vim.api.nvim_set_keymap("n", "k", "gk", { noremap = true })
 
 -- Other mappings
-vim.api.nvim_set_keymap("n", "<space>",
-  "j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j",
-  { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<C-d>",
-  "j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j:sl10m<CR>j",
-  { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "-",
-  "k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k",
-  { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<C-u>",
-  "k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k:sl10m<CR>k",
-  { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<space>", "8j", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "-", "8k", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<C-d>", "8j", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<C-u>", "8k", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("i", "<C-]>", "<C-o>O", { noremap = true })
 
 -- Remap leader-y/p to use system buffer
@@ -92,11 +86,8 @@ require('packer').startup(function()
   use "folke/trouble.nvim"
   use "sbdchd/neoformat"
   use "nvim-lualine/lualine.nvim"
-  use {
-    "lalitmee/cobalt2.nvim",
-    requires = "tjdevries/colorbuddy.nvim"
-  }
   use "kyazdani42/nvim-web-devicons"
+  use "folke/tokyonight.nvim"
   use {
     "nvim-treesitter/nvim-treesitter",
     run = ":TSUpdate"
@@ -169,9 +160,10 @@ cmp.setup({
 })
 
 -- Color theme and status line
-require('colorbuddy').colorscheme('cobalt2')
+vim.cmd[[colorscheme tokyonight]]
 require("lualine").setup({
   options = {
+    theme = 'tokyonight',
     icons_enabled = false,
     component_separators = { left = '', right = ''},
     section_separators = { left = '', right = ''},
