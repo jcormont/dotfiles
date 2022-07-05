@@ -50,6 +50,10 @@ alias gg="git log --graph --decorate --all --date-order --pretty='%C(green)%h%C(
 alias bastion="cd;tmux new-session -d -s bastion ./.scripts/bastion.sh"
 alias backup="cd;./.scripts/pack.sh"
 
+# Set tab size to 2 in terminal and less command (for git)
+tabs -2
+export LESS="Rx2"
+
 # ZSH syntax highlighting (installed separately)
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
