@@ -156,6 +156,8 @@ cmp.setup({
 		['<C-j>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
 		['<Up>'] = cmp.mapping(cmp.mapping.select_prev_item(), {'i','c'}),
 		['<Down>'] = cmp.mapping(cmp.mapping.select_next_item(), {'i','c'}),
+		['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item(), {'i','c'}),
+		['<C-n>'] = cmp.mapping(cmp.mapping.select_next_item(), {'i','c'}),
 		['<CR>'] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Insert }),
 		['<tab>'] = cmp.mapping.confirm({ select = true })
 	},
