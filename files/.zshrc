@@ -53,6 +53,7 @@ alias backup="cd;./.scripts/pack.sh"
 # Set tab size to 2 in terminal and less command (for git)
 tabs -2
 export LESS="Rx2"
+export TABSIZE=2
 
 # ZSH syntax highlighting (installed separately)
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
