@@ -59,9 +59,10 @@ vim.api.nvim_set_keymap("n", "k", "gk", { noremap = true })
 -- Other mappings
 vim.api.nvim_set_keymap("n", "<space>", "8j", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "-", "8k", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "<space>", "8j", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "-", "8k", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-d>", "8j", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-u>", "8k", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("i", "<C-]>", "<C-o>O", { noremap = true })
 
 -- Remap leader-y/p to use system buffer
 vim.api.nvim_set_keymap("n", "<leader>y", "\"+y", {});
@@ -91,15 +92,13 @@ require('packer').startup(function()
 	use "kyazdani42/nvim-web-devicons"
 	use "kyazdani42/nvim-tree.lua"
 	use "romgrk/barbar.nvim"
-	use "folke/tokyonight.nvim"
+	use "windwp/nvim-autopairs"
+	use "EdenEast/nightfox.nvim"
 	use {
 		"nvim-treesitter/nvim-treesitter",
 		run = ":TSUpdate"
 	}
 end)
-
--- Neoformat autocommand
-vim.cmd("autocmd BufWritePre * undojoin | Neoformat prettierd")
 
 -- LSP setup
 local lspconfig = require("lspconfig")
@@ -173,11 +172,21 @@ require("nvim-tree").setup({
 })
 vim.api.nvim_set_keymap("n", "<leader>e", ":NvimTreeFindFile<CR>:NvimTreeOpen<CR>", { silent = true })
 
+-- Tree sitter (enable syntax highlighting)
+require("nvim-treesitter.configs").setup({
+	ensure_installed = "all",
+	highlight = {
+		enable = true,
+		additional_vim_regex_highlighting = true
+	},
+	indent = { enable = true }
+})
+
 -- Color theme and status line
-vim.cmd[[colorscheme tokyonight]]
+vim.cmd("colorscheme nightfox")
 require("lualine").setup({
 	options = {
-		theme = 'tokyonight',
+		--theme = 'tokyonight',
 		icons_enabled = false,
 		component_separators = { left = '', right = ''},
 		section_separators = { left = '', right = ''},
@@ -193,15 +202,11 @@ require("lualine").setup({
 	}
 })
 
--- Tree sitter (enable syntax highlighting)
-require("nvim-treesitter.configs").setup({
-	ensure_installed = "all",
-	highlight = {
-		enable = true,
-		additional_vim_regex_highlighting = true
-	},
-	indent = { enable = true }
-})
+-- Neoformat autocommand
+vim.cmd("autocmd BufWritePre * undojoin | Neoformat prettierd")
+
+-- Autopairs
+require("nvim-autopairs").setup({})
 
 -- Git signs
 require('gitsigns').setup({
@@ -217,7 +222,7 @@ vim.api.nvim_set_keymap("n", "gn", ":Gitsigns next_hunk<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "gN", ":Gitsigns prev_hunk<CR>", { silent = true })
 
 -- Trouble
-vim.api.nvim_set_keymap("n", "<leader>t", ":TroubleToggle<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "<leader>t", ":Trouble<CR>", { silent = true })
 
 -- Telescope
 require("telescope").setup({
