@@ -8,7 +8,7 @@ vim.opt.cmdheight = 1
 vim.opt.laststatus = 3
 vim.opt.signcolumn = "yes"
 vim.opt.ruler = false
-vim.opt.mouse = "a"
+vim.opt.mouse = "ar"
 vim.opt.termguicolors = true
 vim.opt.incsearch = true
 vim.opt.breakindent = true
@@ -16,8 +16,6 @@ vim.opt.showbreak = "  "
 vim.opt.linebreak = true
 vim.opt.showmode = false
 vim.opt.showcmd = true
-vim.opt.showmatch = true
-vim.opt.matchtime = 1
 vim.opt.fillchars = { eob = " " }
 vim.opt.winbl = 10
 vim.opt.ignorecase = true
@@ -133,11 +131,6 @@ local on_attach = function(client, bufnr)
 	buf_map(bufnr, "n", "K", ":LspHover<CR>")
 	buf_map(bufnr, "n", "<C-K>", ":LspHover<CR>")
 	buf_map(bufnr, "i", "<C-K>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
-
-	--Disable LSP format on save because using Prettier instead
-	--if client.resolved_capabilities.document_formatting then
-	--  vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
-	--end
 end
 
 require 'lspconfig'.tsserver.setup({ on_attach = on_attach })
@@ -168,28 +161,44 @@ cmp.setup({
 require("nvim-tree").setup({
 	view = {
 		side = "right"
+	},
+	renderer = {
+		root_folder_modifier = ":t",
+		indent_markers = {
+			enable = true
+		}
 	}
 })
 vim.api.nvim_set_keymap("n", "<leader>e", ":NvimTreeFindFile<CR>:NvimTreeOpen<CR>", { silent = true })
 
 -- Tree sitter (enable syntax highlighting)
-require("nvim-treesitter.configs").setup({
-	ensure_installed = "all",
-	highlight = {
-		enable = true,
-		additional_vim_regex_highlighting = true
-	},
-	indent = { enable = true }
-})
+-- DISABLED BECAUSE OF TERRIBLE PERFORMANCE WITH > 1000 LINE TS FILES
+--require("nvim-treesitter.configs").setup({
+--	ensure_installed = "all",
+--	highlight = {
+--		enable = true,
+--		additional_vim_regex_highlighting = true
+--	},
+--	indent = { enable = true }
+--})
 
 -- Color theme and status line
+require('nightfox').setup({
+  options = {
+		styles = { comments = "italic" }
+	},
+	specs = {
+		all = {
+			syntax = { comment = "orange" }
+		}
+	}
+})
 vim.cmd("colorscheme nightfox")
 require("lualine").setup({
 	options = {
-		--theme = 'tokyonight',
-		icons_enabled = false,
-		component_separators = { left = '', right = ''},
-		section_separators = { left = '', right = ''},
+		icons_enabled = true,
+		component_separators = { left = "", right = ""},
+		section_separators = { left = "", right = ""},
 	},
 	sections = {
 		lualine_c = {
