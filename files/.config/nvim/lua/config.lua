@@ -62,6 +62,12 @@ vim.api.nvim_set_keymap("v", "-", "8k", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-d>", "8j", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-u>", "8k", { noremap = true, silent = true })
 
+-- JS-specific shortcuts
+vim.api.nvim_set_keymap("v", "<leader>c", "0<C-v>I//<esc>j", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>c", "0<C-v>I//<esc>j", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>j", "O/***/<left><left><space><left><space>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>J", "O/***/<left><left><CR><esc>d0==I<space><esc>kA<CR>", { noremap = true, silent = true })
+
 -- Remap leader-y/p to use system buffer
 vim.api.nvim_set_keymap("n", "<leader>y", "\"+y", {});
 vim.api.nvim_set_keymap("v", "<leader>y", "\"+y", {});
