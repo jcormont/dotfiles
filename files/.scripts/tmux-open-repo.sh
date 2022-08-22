@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-selected=$(find ~/* ~/Repositories/* -mindepth 0 -maxdepth 0 -type d | fzf)
+selected=$(find ~/* ~/Dev/Repositories/* -mindepth 0 -maxdepth 0 -type d | fzf)
 
 if [[ -z $selected ]]; then
     exit 0
