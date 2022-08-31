@@ -38,6 +38,7 @@ vim.opt.titlestring = "%t"
 vim.opt.clipboard = "unnamedplus"
 vim.opt.updatetime = 150
 vim.cmd [[ set list lcs=trail:·,tab:\\u2591\\x20 ]]
+vim.cmd [[ set formatoptions=crnj ]]
 vim.g.mapleader = ","
 vim.opt.shortmess = {
 	a = true,
@@ -54,7 +55,7 @@ vim.opt.shortmess = {
 vim.api.nvim_set_keymap("n", "j", "gj", { noremap = true })
 vim.api.nvim_set_keymap("n", "k", "gk", { noremap = true })
 
--- Other mappings
+-- Scroll mappings
 vim.api.nvim_set_keymap("n", "<space>", "8j", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "-", "8k", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("v", "<space>", "8j", { noremap = true, silent = true })
@@ -68,11 +69,17 @@ vim.api.nvim_set_keymap("n", "<leader>c", "0<C-v>I//<esc>j", { noremap = true, s
 vim.api.nvim_set_keymap("n", "<leader>j", "O/***/<left><left><space><left><space>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader>J", "O/***/<left><left><CR><esc>d0==I<space><esc>kA<CR>", { noremap = true, silent = true })
 
--- Remap leader-y/p to use system buffer
-vim.api.nvim_set_keymap("n", "<leader>y", "\"+y", {});
-vim.api.nvim_set_keymap("v", "<leader>y", "\"+y", {});
-vim.api.nvim_set_keymap("n", "<leader>p", "\"+p", {});
-vim.api.nvim_set_keymap("v", "<leader>p", "\"+p", {});
+-- List mappings
+vim.api.nvim_set_keymap("n", "<leader>q", ":copen<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "]Q", ":clast<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "[Q", ":cfirst<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "]q", ":cnext<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "[q", ":cprev<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>l", ":lopen<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "]L", ":llast<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "[L", ":lfirst<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "]l", ":lnext<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "[l", ":lprev<CR>", { noremap = true, silent = true })
 
 -- Highlight on yank
 vim.cmd "au TextYankPost * lua vim.highlight.on_yank {on_visual = false}"
@@ -90,7 +97,6 @@ require('packer').startup(function()
 	use "hrsh7th/cmp-path"
 	use "hrsh7th/nvim-cmp"
 	use "lewis6991/gitsigns.nvim"
-	use "folke/trouble.nvim"
 	use "sbdchd/neoformat"
 	use "nvim-lualine/lualine.nvim"
 	use "kyazdani42/nvim-web-devicons"
@@ -98,48 +104,29 @@ require('packer').startup(function()
 	use "romgrk/barbar.nvim"
 	use "windwp/nvim-autopairs"
 	use "EdenEast/nightfox.nvim"
-	use {
-		"nvim-treesitter/nvim-treesitter",
-		run = ":TSUpdate"
-	}
+	--use {
+	--	"nvim-treesitter/nvim-treesitter",
+	--	run = ":TSUpdate"
+	--}
 end)
 
--- LSP setup
+-- LSP/diagnostics setup
 local lspconfig = require("lspconfig")
+lspconfig.tsserver.setup({})
+
 vim.fn.sign_define("DiagnosticSignError", {text = "", numhl = "DiagnosticSignError"})
 vim.fn.sign_define("DiagnosticSignWarn", {text = "", numhl = "DiagnosticSignWarn"})
 vim.fn.sign_define("DiagnosticSignInfo", {text = "", numhl = "DiagnosticSignInfo"})
 vim.fn.sign_define("DiagnosticSignHint", {text = "", numhl = "DiagnosticSignHint"})
-
-local buf_map = function(bufnr, mode, lhs, rhs, opts)
-	vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts or {
-		silent = true,
-	})
-end
-
-local on_attach = function(client, bufnr)
-	vim.opt.formatoptions = "crnj"
-	vim.cmd("command! LspDef lua vim.lsp.buf.definition()")
-	vim.cmd("command! LspFormatting lua vim.lsp.buf.formatting()")
-	vim.cmd("command! LspCodeAction lua vim.lsp.buf.code_action()")
-	vim.cmd("command! LspHover lua vim.lsp.buf.hover()")
-	vim.cmd("command! LspRename lua vim.lsp.buf.rename()")
-	vim.cmd("command! LspRefs lua vim.lsp.buf.references()")
-	vim.cmd("command! LspTypeDef lua vim.lsp.buf.type_definition()")
-	vim.cmd("command! LspDiag lua vim.diagnostic.setqflist()")
-	vim.cmd("command! LspSignatureHelp lua vim.lsp.buf.signature_help()")
-	buf_map(bufnr, "n", "gd", ":LspDef<CR>")
-	--buf_map(bufnr, "n", "gr", ":LspRefs<CR>") -- using Telescope instead
-	--buf_map(bufnr, "n", "gy", ":LspTypeDef<CR>") -- using Telescope instead
-	--buf_map(bufnr, "n", "gy", ":LspDiag<CR>") -- using Trouble instead
-	buf_map(bufnr, "n", "<leader>a", ":LspCodeAction<CR>")
-	buf_map(bufnr, "n", "<leader>rr", ":LspRename<CR>")
-	buf_map(bufnr, "n", "K", ":LspHover<CR>")
-	buf_map(bufnr, "n", "<C-K>", ":LspHover<CR>")
-	buf_map(bufnr, "i", "<C-K>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
-end
-
-require 'lspconfig'.tsserver.setup({ on_attach = on_attach })
+vim.api.nvim_set_keymap("n", "]x", ":lua vim.diagnostic.goto_next()<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "[x", ":lua vim.diagnostic.goto_prev()<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "<leader>x", ":lua vim.diagnostic.setqflist()<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "<leader>a", ":lua vim.lsp.buf.code_action()<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "<leader>rr", ":lua vim.lsp.buf.rename()<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "K", ":lua vim.lsp.buf.hover()<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "<C-K>", ":lua vim.lsp.buf.hover()<CR>", { silent = true })
+vim.api.nvim_create_user_command("LspSignature", "lua vim.lsp.buf.signature_help()", {})
+vim.api.nvim_set_keymap("i", "<C-K>", "<cmd>LspSignature<CR>", { silent = true })
 
 -- Completion setup
 local cmp = require("cmp")
@@ -220,6 +207,10 @@ require("lualine").setup({
 -- Neoformat autocommand
 vim.cmd("autocmd BufWritePre * undojoin | Neoformat prettierd")
 
+-- Buffer (barbar) mappings
+vim.api.nvim_set_keymap("n", "]b", ":BufferNext<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "[b", ":BufferPrev<CR>", { noremap = true, silent = true })
+
 -- Autopairs
 require("nvim-autopairs").setup({})
 
@@ -233,11 +224,8 @@ require('gitsigns').setup({
 		changedelete = {hl = 'GitSignsDelete', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
 	}
 })
-vim.api.nvim_set_keymap("n", "gn", ":Gitsigns next_hunk<CR>", { silent = true })
-vim.api.nvim_set_keymap("n", "gN", ":Gitsigns prev_hunk<CR>", { silent = true })
-
--- Trouble
-vim.api.nvim_set_keymap("n", "<leader>t", ":Trouble<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "]g", ":Gitsigns next_hunk<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "[g", ":Gitsigns prev_hunk<CR>", { silent = true })
 
 -- Telescope
 require("telescope").setup({
@@ -247,7 +235,7 @@ require("telescope").load_extension("file_browser")
 filelist_theme = "theme=dropdown previewer=false<CR>"
 grep_theme = "theme=dropdown previewer=false layout_config={mirror=true,height=0.5}<CR>"
 greppreview_theme = "theme=dropdown layout_config={mirror=true}<CR>"
-ref_theme = "theme=cursor layout_config={width=0.8,height=18}<CR>"
+ref_theme = "theme=cursor layout_config={width=0.8,height=20}<CR>"
 
 vim.api.nvim_set_keymap("n", "<leader><leader>", ":Telescope<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "<leader>.", ":Telescope resume<CR>", { silent = true })
@@ -258,6 +246,7 @@ vim.api.nvim_set_keymap("n", "<leader>s", ":Telescope current_buffer_fuzzy_find 
 vim.api.nvim_set_keymap("n", "<leader>b", ":Telescope buffers " .. filelist_theme, { silent = true })
 vim.api.nvim_set_keymap("n", "<C-p>", ":Telescope buffers " .. filelist_theme, { silent = true })
 vim.api.nvim_set_keymap("n", "<leader>g", ":Telescope git_status " .. greppreview_theme, { silent = true })
+vim.api.nvim_set_keymap("n", "gd", ":Telescope lsp_definitions " .. ref_theme, { silent = true })
 vim.api.nvim_set_keymap("n", "gr", ":Telescope lsp_references " .. ref_theme, { silent = true })
 vim.api.nvim_set_keymap("n", "gy", ":Telescope lsp_type_definitions " .. ref_theme, { silent = true })
 
