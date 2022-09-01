@@ -38,7 +38,6 @@ vim.opt.titlestring = "%t"
 vim.opt.clipboard = "unnamedplus"
 vim.opt.updatetime = 150
 vim.cmd [[ set list lcs=trail:·,tab:\\u2591\\x20 ]]
-vim.cmd [[ set formatoptions=crnj ]]
 vim.g.mapleader = ","
 vim.opt.shortmess = {
 	a = true,
@@ -68,6 +67,13 @@ vim.api.nvim_set_keymap("v", "<leader>c", "0<C-v>I//<esc>j", { noremap = true, s
 vim.api.nvim_set_keymap("n", "<leader>c", "0<C-v>I//<esc>j", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader>j", "O/***/<left><left><space><left><space>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader>J", "O/***/<left><left><CR><esc>d0==I<space><esc>kA<CR>", { noremap = true, silent = true })
+
+-- Visual mode enhancements
+vim.api.nvim_set_keymap("v", "v", "$", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "(", "<esc>`>a)<esc>`<i(<esc>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "{", "<esc>`>a}<esc>`<i{<esc>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "`", "<esc>`>a`<esc>`<i`<esc>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "\"", "<esc>`>a\"<esc>`<i\"<esc>", { noremap = true, silent = true })
 
 -- List mappings
 vim.api.nvim_set_keymap("n", "<leader>q", ":copen<CR>", { noremap = true, silent = true })
@@ -112,7 +118,13 @@ end)
 
 -- LSP/diagnostics setup
 local lspconfig = require("lspconfig")
-lspconfig.tsserver.setup({})
+lspconfig.tsserver.setup({
+	on_attach = function (client, bufnr)
+		vim.cmd [[ set formatoptions=crnj ]]
+		vim.api.nvim_buf_set_option(bufnr, 'formatexpr',
+			'v:lua.vim.lsp.formatexpr(#{timeout_ms:250})')
+	end
+})
 
 vim.fn.sign_define("DiagnosticSignError", {text = "", numhl = "DiagnosticSignError"})
 vim.fn.sign_define("DiagnosticSignWarn", {text = "", numhl = "DiagnosticSignWarn"})
