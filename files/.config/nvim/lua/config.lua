@@ -22,6 +22,7 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.autoread = true
 vim.opt.number = true
+vim.opt.relativenumber = true;
 vim.opt.cursorline = true
 vim.opt.scrolloff = 8
 vim.opt.splitbelow = true
@@ -50,7 +51,7 @@ vim.opt.shortmess = {
 	I = true
 }
 
--- Fix up/down behavior
+-- Fix basic VIM bindings
 vim.api.nvim_set_keymap("n", "j", "gj", { noremap = true })
 vim.api.nvim_set_keymap("n", "k", "gk", { noremap = true })
 
@@ -59,8 +60,8 @@ vim.api.nvim_set_keymap("n", "<space>", "8j", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "-", "8k", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("v", "<space>", "8j", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("v", "-", "8k", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<C-d>", "8j", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<C-u>", "8k", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<C-d>", "Lzz", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<C-u>", "Hzz", { noremap = true, silent = true })
 
 -- JS-specific shortcuts
 vim.api.nvim_set_keymap("v", "<leader>c", "0<C-v>I//<esc>j", { noremap = true, silent = true })

@@ -39,12 +39,15 @@ zle -N down-line-or-beginning-search
 bindkey "$key[Up]" up-line-or-beginning-search
 bindkey "$key[Down]" down-line-or-beginning-search
 
-# Aliases (nvim, tmux, git)
+# Aliases (nvim, tmux, git, exa, bat)
 alias e=nvim
 alias t="tmux a || tmux new-session -s main"
 alias r="tmux rename-session $argv"
 alias g="git status -s -b $argv"
 alias gg="git log --graph --decorate --all --date-order --pretty='%C(green)%h%C(reset) %C(italic blue)%ar%C(reset)%C(yellow)%d%C(reset) - %s' $argv"
+alias ls="exa --long --header"
+alias tree="exa --long --tree"
+alias b="batcat"
 
 # Script aliases (from .scripts folder)
 alias bastion="cd;tmux new-session -d -s bastion ./.scripts/bastion.sh"
