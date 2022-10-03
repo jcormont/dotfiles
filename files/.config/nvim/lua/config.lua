@@ -4,11 +4,12 @@ vim.opt.expandtab = false
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
-vim.opt.cmdheight = 1
+vim.opt.cmdheight = 0 -- new, nice!
 vim.opt.laststatus = 3
 vim.opt.signcolumn = "yes"
 vim.opt.ruler = false
 vim.opt.mouse = "ar"
+vim.opt.mousescroll = "ver:1,hor:3"
 vim.opt.termguicolors = true
 vim.opt.incsearch = true
 vim.opt.breakindent = true
@@ -23,7 +24,7 @@ vim.opt.smartcase = true
 vim.opt.autoread = true
 vim.opt.number = true
 vim.opt.cursorline = true
-vim.opt.scrolloff = 8
+vim.opt.scrolloff = 5
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.spell = true
@@ -110,10 +111,10 @@ require('packer').startup(function()
 	use "romgrk/barbar.nvim"
 	use "windwp/nvim-autopairs"
 	use "EdenEast/nightfox.nvim"
-	--use {
-	--	"nvim-treesitter/nvim-treesitter",
-	--	run = ":TSUpdate"
-	--}
+	use {
+		"nvim-treesitter/nvim-treesitter",
+		run = ":TSUpdate"
+	}
 end)
 
 -- LSP/diagnostics setup
@@ -177,15 +178,14 @@ require("nvim-tree").setup({
 vim.api.nvim_set_keymap("n", "<leader>e", ":NvimTreeFindFile<CR>:NvimTreeOpen<CR>", { silent = true })
 
 -- Tree sitter (enable syntax highlighting)
--- DISABLED BECAUSE OF TERRIBLE PERFORMANCE WITH > 1000 LINE TS FILES
---require("nvim-treesitter.configs").setup({
---	ensure_installed = "all",
---	highlight = {
---		enable = true,
---		additional_vim_regex_highlighting = true
---	},
---	indent = { enable = true }
---})
+require("nvim-treesitter.configs").setup({
+	ensure_installed = "all",
+	highlight = {
+		enable = true,
+		additional_vim_regex_highlighting = true
+	},
+	indent = { enable = true }
+})
 
 -- Color theme and status line
 require('nightfox').setup({
