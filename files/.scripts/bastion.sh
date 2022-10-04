@@ -2,7 +2,7 @@
 while :
 do
   date
-  ssh -v -N \
+  ssh -N \
     -o ExitOnForwardFailure=yes \
     -R 11922:localhost:22 \
     -R 3389:localhost:3389 \
