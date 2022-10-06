@@ -110,7 +110,7 @@ require('packer').startup(function()
 	use "kyazdani42/nvim-tree.lua"
 	use "romgrk/barbar.nvim"
 	use "windwp/nvim-autopairs"
-	use "EdenEast/nightfox.nvim"
+	use { "catppuccin/nvim", as = "catppuccin" }
 	use {
 		"nvim-treesitter/nvim-treesitter",
 		run = ":TSUpdate"
@@ -180,27 +180,22 @@ vim.api.nvim_set_keymap("n", "<leader>e", ":NvimTreeFindFile<CR>:NvimTreeOpen<CR
 -- Tree sitter (enable syntax highlighting)
 require("nvim-treesitter.configs").setup({
 	ensure_installed = "all",
-	highlight = {
-		enable = true,
-		additional_vim_regex_highlighting = true
-	},
+	highlight = { enable = true },
 	indent = { enable = true }
 })
 
 -- Color theme and status line
-require('nightfox').setup({
-  options = {
-		styles = { comments = "italic" }
-	},
-	specs = {
-		all = {
-			syntax = { comment = "orange" }
-		}
+vim.g.catppuccin_flavour = "macchiato"
+local colors = require("catppuccin.palettes").get_palette()
+require("catppuccin").setup {
+	custom_highlights = {
+		Comment = { fg = colors.peach },
 	}
-})
-vim.cmd("colorscheme nightfox")
+}
+vim.cmd("colorscheme catppuccin")
 require("lualine").setup({
 	options = {
+		theme = "catppuccin",
 		icons_enabled = true,
 		component_separators = { left = "", right = ""},
 		section_separators = { left = "", right = ""},
