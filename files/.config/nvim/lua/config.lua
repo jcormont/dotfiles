@@ -9,7 +9,6 @@ vim.opt.laststatus = 3
 vim.opt.signcolumn = "yes"
 vim.opt.ruler = false
 vim.opt.mouse = "ar"
-vim.opt.mousescroll = "ver:1,hor:3"
 vim.opt.termguicolors = true
 vim.opt.incsearch = true
 vim.opt.breakindent = true

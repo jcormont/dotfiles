@@ -59,7 +59,7 @@ export LESS="Rx2"
 export TABSIZE=2
 
 # ZSH syntax highlighting (installed separately)
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Load NVM (installed separately)
 export NVM_DIR="$HOME/.nvm"
